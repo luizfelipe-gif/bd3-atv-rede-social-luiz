@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATIVIDADE - REDE SOCIAL</title>
+
+    <link rel="stylesheet" href="./styles.css">
+
+</head>
+
+<body>
+
+    <script src="socket.io/socket.io.js"></script>
+    
+    <div class="header_container">
+        <img src="./images/rede.png" />
+        <h1>ATIVIDADE - REDE SOCIAL</h1>
+    </div>
+
+    <div class="button_post_container">
+        <button name="btn_post" id="btn_post">POST</button>
+    </div>
+
+    <div class="posts_container"></div>
+
+    <!-- ESTRUTURA HTML DO FORMULÁRIO MODAL: -->
+    <div id="myModal" class="modal">
+        
+        <div class="modal-content">
+
+            <span class="close">&times;</span>
+            
+            <div class="form_post_container">
+
+                <h4>FAÇA UM POST</h4>
+
+                <form name="frm_post" id="frm_post">
+
+                    <input type="text" name="txt_titulo" id="txt_titulo" placeholder="TITULO DO POST">
+                    <br />
+                    <input type="text" name="txt_post" id="txt_post"  placeholder="TEXTO DO POST">
+                    <br />
+                    <button name="btn_postar" id="btn_postar">POSTAR</button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+    <script>
+
+        /***** ABERTURA/FECHAMENTO DO FORMUÁRIO MODAL *****/
+        let btn = document.getElementById('btn_post');
+        let modal = document.getElementById("myModal");
+        let span = document.getElementsByClassName("close")[0];
+
+        //ABRE O FORMULÁRIO MODAL:
+        btn.addEventListener('click', function (event) {
+            event.preventDefault();
+             modal.style.display = "block";
+        });
+
+        //FECHA O FORMULÁRIO MODAL:
+        span.addEventListener('click', function(event){
+            modal.style.display = "none";
+        });
+
+    </script>
+
+</html>
