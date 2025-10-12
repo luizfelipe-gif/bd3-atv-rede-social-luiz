@@ -1,7 +1,25 @@
-html body h1{
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+* {
+   font-family: 'Inter', sans-serif;
+}
+
+html, body {
     margin: 0;
     padding: 0;
+    padding-bottom: 1vh;
     border: 0;
+       background-color: rgb(172, 172, 172);
+
+}
+
+h2, h1 {
+   margin: 0;
+   padding: 0;
+}
+
+h2 {
+   height: 2.2rem;
 }
 
 .header_container{
@@ -10,14 +28,14 @@ html body h1{
     align-items: center;
     justify-content: center;
     width: 100%;
-    background-color: blue;
+    background-color: rgb(10, 10, 92);
     color: #FFF;
     font-weight: bold;
     padding: 50px 0px;
 }
 
 .header_container img{
-    width: 80px;
+    width: 5vh;
     margin-right: 10px;
 }
 
@@ -25,45 +43,17 @@ html body h1{
     background-color: #CCC;
     text-align: right;
     padding: 10px;
-    margin-top: 5px;
 }
 
 .button_post_container button{
-    background-color: #00801A;
+    background-color: rgb(10, 10, 92);
     color: #FFF;
     font-weight: bold;
     border: 0;
     border-radius: 5px;
     padding: 10px;
-    width: 100px;
+    width: 140px;
     cursor: pointer;
-}
-
-.posts_container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #CCC;
-    margin-top: 5px;
-    padding: 10px;
-}
-
-.post_container{
-    width: 50%;
-    background-color: #e3e1e1;
-    border: #999 2px solid;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 5px;
-}
-
-.post_container p{
-    text-align: justify;
-}
-
-.post_container span{
-    text-align: justify;
-    font-weight: bold;
 }
 
 /* CSS DO FORMULARIO MODAL DE CADASTRO DE POST: */
@@ -80,18 +70,12 @@ html body h1{
   background-color: rgba(0,0,0,0.4);
 }
 
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-}
-
 .close {
-  color: red;
-  font-size: 28px;
-  font-weight: bold;
+  color: #777;
+  font-size: 2.5rem;
+  font-weight: normal;
+   text-align: center;
+
 }
 
 .close:hover,
@@ -101,30 +85,134 @@ html body h1{
   cursor: pointer;
 }
 
-.form_post_container{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    flex-direction: column;    
+
+
+
+/* Header */
+
+
+
+
+/* Corpo */
+.post_container {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
 }
 
-.form_post_container input{
-    margin: 10px;
-    padding: 10px;
-    width: 500px;
-    border-radius: 5px;
-    border: #999 1px solid;
+.post_content{
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   background-color: #ffffff;
+   box-shadow: rgba(0, 0, 0, 0.247) 0px 10px 20px, rgba(0, 0, 0, 0.267) 0px 6px 6px;
+   border-radius: 13px;
+   max-width: 60vw;
+   width: 50vw;
+   margin-top: 15px;
+   padding: 20px;
 }
 
-.form_post_container button{
-    background-color: #00801A;
-    color: #FFF;
-    font-weight: bold;
-    border: 0;
-    border-radius: 5px;
-    padding: 10px;
-    width: 100px;
-    cursor: pointer;
+.post_text {
+   justify-content: center;
+   align-items: center;
+   width: 85%;
+   
+   .post_info {
+      display: flex;
+      justify-content: space-between;
+      font-style: italic;
+      font-size: 0.85rem;
+      margin-bottom: 1vh;
+   }
+
+   .post_mensagem {
+      height: 3vh;
+      height: max-content;
+   }
 }
 
+/* Modal */
+.modal div, span, input {
+   font: 1rem / 2 sans-serif;
+}
+
+.form_post_title {
+   display: flex;
+   justify-content: space-around;
+   align-items: center;
+   span {
+      cursor: pointer;
+   }
+}
+
+.modal-content {
+   background-color: #fefefe;
+   margin: 4% auto;
+   padding: 20px;
+   border: 1px solid #888888;
+   box-shadow: 0px 0px 50px rgb(110, 110, 110) ;
+   width: 50vw;
+   max-width: 1000px;
+   border-radius: 10px;
+}
+
+.form_content {
+   width: 100%;
+}
+
+#form_post {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-direction: column;    
+   width: 100%;
+
+
+}
+
+.form-fields {
+   width: 65%;
+   margin: 15px 0px;
+
+   h3 {
+      width: 15vw;
+      margin: 0px;
+   }
+
+   input, textarea {
+      width: 100%;
+      padding: 5px;
+      border: solid gray 1px;
+      border-radius: 0.25rem;
+   }
+   
+   input {
+      margin: 0px;
+   }
+   
+   textarea {
+      height: 23vh;
+      font: 1rem / 2 sans-serif;
+   }
+}
+
+.form-button {
+   display: flex;
+   justify-content: space-around;
+
+   button {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      font-weight: bold;
+      background-color: rgb(10, 10, 92);;
+      color: #FFF;
+      border: 0;
+      border-radius: 5px;
+      padding: 1rem;
+      width: 140px;
+      img { padding: 0 10px;}
+   }
+}

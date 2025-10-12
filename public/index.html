@@ -1,79 +1,155 @@
 <!DOCTYPE html>
 
 <html lang="pt-br">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <title>MongoSocial</title>
+      <link rel="shortcut icon" href="images/mongo.ico" type="images/x-icon">
 
-<head>
+      <!-- Importa o arquivo CSS: -->
+      <link rel="stylesheet" href="styles.css">
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATIVIDADE - REDE SOCIAL</title>
+      <!-- Importa o Jquery para a aplicação frontend: -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
 
-    <link rel="stylesheet" href="./styles.css">
+      <!-- Importa o SocketIO para a aplicação frontend: -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.js"></script>
+      
+   </head>
 
-</head>
+   <body>
+      <header class="header_container">
+            <img src="./images/mongo.svg" />
+            <h1>MongoSocial</h1>
+      </header>
+      
+      <div class="button_post_container">
+         <button name="btn_post" id="btn_post">Fazer novo post</button>
+      </div>
 
-<body>
+      
+      <div class="post_container"></div>
 
-    <script src="socket.io/socket.io.js"></script>
-    
-    <div class="header_container">
-        <img src="./images/rede.png" />
-        <h1>ATIVIDADE - REDE SOCIAL</h1>
-    </div>
+      <!-- ESTRUTURA HTML DO FORMULÁRIO MODAL: -->
+      <div id="myModal" class="modal">
+         <div class="modal-content">
+            <div class="form_content">
+               <div class="form_post_title">
+                  <div></div>
+                  <h1>Fazer nova postagem</h1>
+                  <div></div>
+                  <span class="close" onclick="fecharModal()">&times;</span>
+               </div>
 
-    <div class="button_post_container">
-        <button name="btn_post" id="btn_post">POST</button>
-    </div>
+               <form name="form_post" id="form_post">
+                  <div class="form-fields">
+                     <h3>Autor</h3>
+                     <input type="text" name="txt_autor" id="txt_autor" placeholder="Nome do autor(a)">
+                  </div>
+                  <div class="form-fields">
+                     <h3>Título</h3>
+                     <input type="text" name="txt_titulo" id="txt_titulo" placeholder="Defina um título">
+                  </div>
+                  <div class="form-fields">
+                     <h3>Mensagem</h3>
+                     <textarea type="text" name="txt_post" id="txt_post"  placeholder="Escreva sua mensagem..."></textarea>
+                  </div>
+               </form>
 
-    <div class="posts_container"></div>
+               <div class="form-button">
+                  <button name="btn_retornar" id="btn_retornar" onclick="fecharModal()">
+                     <img src="images/return.svg" width="20" height="20">
+                     Retornar
+                  </button>
 
-    <!-- ESTRUTURA HTML DO FORMULÁRIO MODAL: -->
-    <div id="myModal" class="modal">
-        
-        <div class="modal-content">
-
-            <span class="close">&times;</span>
-            
-            <div class="form_post_container">
-
-                <h4>FAÇA UM POST</h4>
-
-                <form name="frm_post" id="frm_post">
-
-                    <input type="text" name="txt_titulo" id="txt_titulo" placeholder="TITULO DO POST">
-                    <br />
-                    <input type="text" name="txt_post" id="txt_post"  placeholder="TEXTO DO POST">
-                    <br />
-                    <button name="btn_postar" id="btn_postar">POSTAR</button>
-
-                </form>
-
+                  <button type="submit" name="btn_postar" id="btn_postar" form="form_post">
+                     <img src="images/share.svg" width="24" height="24" onsubmit="fecharModal()">
+                     Postar
+                  </button>
+               </div>
             </div>
+         </div>
+      </div>
 
-        </div>
+      <script>
+         const socket = io('http://localhost:3000')
 
-    </div>
+         /***** ABERTURA/FECHAMENTO DO FORMUÁRIO MODAL *****/
+         let btn = document.getElementById('btn_post');
+         let modal = document.getElementById("myModal");
+         let span = document.getElementsByClassName("close")[0];
 
-</body>
-
-    <script>
-
-        /***** ABERTURA/FECHAMENTO DO FORMUÁRIO MODAL *****/
-        let btn = document.getElementById('btn_post');
-        let modal = document.getElementById("myModal");
-        let span = document.getElementsByClassName("close")[0];
-
-        //ABRE O FORMULÁRIO MODAL:
-        btn.addEventListener('click', function (event) {
+         
+         // Função onde vai renderizar cada mensagem no html
+         function renderMessage(message) {
+            $('.post_container').append(`
+            <article class="post_content">
+               <span class="post_text">
+                  <h2> <img src="images/double-arrow.svg" width="24" height="24"> ${message.titulo}</h2>
+                  <div class="post_info">
+                     <div> publicado por: <strong>${message.autor} </strong> em <strong> ${message.data_hora} </strong></div>
+                  </div>
+                  <div class="post_mensagem">
+                     <strong> Mensagem: </strong> ${message.texto}<br>
+                  </div>
+               </span>
+            </article>
+            `)
+         };
+ 
+         // Carrega todas as mensagens anteriores e exibe cada uma
+         socket.on('previousMessage', function(mensagens) {
+            for (message of mensagens) {
+               renderMessage(message);
+            };
+         });
+         
+         
+         // Exibe novas mensagens
+         socket.on('receivedMessage', function(message) {
+            renderMessage(message);
+         });
+         
+         
+         // ABRE O FORMULÁRIO MODAL:
+         btn.addEventListener('click', function(event) {
             event.preventDefault();
-             modal.style.display = "block";
-        });
+            modal.style.display = "block";
+            
+            $('#form_post').submit(function(event) {
+               event.preventDefault();
+               
+               var autor = $('input[name=txt_autor]').val();
+               var titulo = $('input[name=txt_titulo]').val();
+               var texto = $('textarea[name=txt_post]').val();
+               
+               if (autor.length && titulo.length && texto.length) {
+                  let data_hora_obj = new Date();
+                  
+                  let data_hora_msg = `
+                     ${data_hora_obj.getDate()}/${data_hora_obj.getMonth()}/${data_hora_obj.getFullYear()},
+                     ${data_hora_obj.getHours()}:${data_hora_obj.getMinutes()}:${data_hora_obj.getSeconds()}`;
+                  
+                  var messageObject = {
+                     autor: autor,
+                     titulo: titulo,
+                     data_hora: data_hora_msg,
+                     texto: texto,
+                  };
+                  
+                  renderMessage(messageObject);
+                  socket.emit('sendMessage', messageObject);
+               };
+            });
+         });
+         
+         // FECHA O FORMULÁRIO MODAL:
+         function fecharModal() {
+            modal.style.display= "none";
+         }
 
-        //FECHA O FORMULÁRIO MODAL:
-        span.addEventListener('click', function(event){
-            modal.style.display = "none";
-        });
-
-    </script>
-
+      </script>
+   </body>
 </html>
