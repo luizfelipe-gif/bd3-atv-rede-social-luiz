@@ -11,7 +11,7 @@ A ideia se deu origem com uma atividade com foco em explorar o uso do MongoDB, d
 ## :mag_right: Linguagens/Tecnologias usadas
 
 | [<img src="https://cdn.simpleicons.org/github/ffffff?viewbox=auto&size=25" />](https://github.com/LitoMore/simple-icons-cdn) | Tecnologias |
-| ------------  | -- |
+| :------------:  | :------- |
 | <img src="https://cdn.simpleicons.org/mongodb?viewbox=auto&size=30"/>           | MongoDB |
 | <img src="https://cdn.simpleicons.org/mongoose?viewbox=auto&size=20"/>          | Mongoose |
 | <img src="https://cdn.simpleicons.org/socket.io/ffffff?viewbox=auto&size=25"/>  | SocketIO |
